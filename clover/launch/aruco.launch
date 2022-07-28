@@ -1,10 +1,17 @@
 <launch>
     <arg name="aruco_detect" default="true"/>
-    <arg name="aruco_map" default="false"/>
-    <arg name="aruco_vpe" default="false"/>
+    <arg name="aruco_map" default="true"/>
+    <arg name="aruco_vpe" default="true"/>
     <arg name="placement" default="floor"/> <!-- markers placement: floor, ceiling, unknown -->
     <arg name="length" default="0.22"/> <!-- not-in-map markers length, m -->
-    <arg name="map" default="map.txt"/> <!-- markers map file name -->
+    <arg name="map" default="cmit.txt"/> <!-- markers map file name -->
+    <arg name="unique_name" default=""/>
+
+    <arg name="map_frame_id" value="$(arg unique_name)/map" unless="$(eval unique_name == '')"/>
+    <arg name="map_frame_id" value="map" if="$(eval unique_name == '')"/>
+
+    <arg name="aruco_frame_id" value="$(arg unique_name)/aruco_map" unless="$(eval unique_name == '')"/>
+    <arg name="aruco_frame_id" value="aruco_map" if="$(eval unique_name == '')"/>
 
     <!-- For additional help go to https://clover.coex.tech/aruco -->
 
@@ -12,16 +19,15 @@
     <arg name="disable" default="false"/> <!-- only force init -->
 
     <!-- aruco_detect: detect aruco markers, estimate poses -->
-    <node name="aruco_detect" pkg="nodelet" if="$(eval aruco_detect and not disable)" type="nodelet" args="load aruco_pose/aruco_detect main_camera_nodelet_manager" output="screen" clear_params="true" respawn="true">
+    <node name="aruco_detect" pkg="nodelet" if="$(eval aruco_detect and not disable)" type="nodelet" args="load aruco_pose/aruco_detect main_camera_nodelet_manager" output="log" clear_params="true" respawn="true">
         <remap from="image_raw" to="main_camera/image_raw"/>
         <remap from="camera_info" to="main_camera/camera_info"/>
-        <remap from="map_markers" to="aruco_map/map"/>
+        <remap from="map_markers" to="aruco_map/markers"/>
         <param name="estimate_poses" value="true"/>
-        <param name="send_tf" value="true"/>
-        <param name="known_tilt" value="map" if="$(eval placement == 'floor')"/>
-        <param name="known_tilt" value="map_flipped" if="$(eval placement == 'ceiling')"/>
+        <param name="send_tf" value="false"/>
+        <param name="known_tilt" value="$(arg map_frame_id)" if="$(eval placement == 'floor')"/>
+        <param name="known_tilt" value="$(arg map_frame_id)_flipped" if="$(eval placement == 'ceiling')"/>
         <param name="length" value="$(arg length)"/>
-        <param name="transform_timeout" value="0.1"/>
         <!-- aruco detector parameters -->
         <param name="cornerRefinementMethod" value="2"/> <!-- contour refinement -->
         <param name="minMarkerPerimeterRate" value="0.075"/> <!-- 0.075 for 320x240, 0.0375 for 640x480 -->
@@ -30,26 +36,28 @@
     </node>
 
     <!-- aruco_map: estimate aruco map pose -->
-    <node name="aruco_map" pkg="nodelet" type="nodelet" if="$(eval aruco_map and not disable)" args="load aruco_pose/aruco_map main_camera_nodelet_manager" output="screen" clear_params="true" respawn="true">
+    <node name="aruco_map" pkg="nodelet" type="nodelet" if="$(eval aruco_map and not disable)" args="load aruco_pose/aruco_map main_camera_nodelet_manager" output="log" clear_params="true" respawn="true">
         <remap from="image_raw" to="main_camera/image_raw"/>
         <remap from="camera_info" to="main_camera/camera_info"/>
         <remap from="markers" to="aruco_detect/markers"/>
         <param name="map" value="$(find aruco_pose)/map/$(arg map)"/>
-        <param name="known_tilt" value="map" if="$(eval placement == 'floor')"/>
-        <param name="known_tilt" value="map_flipped" if="$(eval placement == 'ceiling')"/>
+        <param name="known_tilt" value="$(arg map_frame_id)" if="$(eval placement == 'floor')"/>
+        <param name="known_tilt" value="$(arg map_frame_id)_flipped" if="$(eval placement == 'ceiling')"/>
         <param name="image_axis" value="true"/>
-        <param name="frame_id" value="aruco_map_detected" if="$(arg aruco_vpe)"/>
-        <param name="frame_id" value="aruco_map" unless="$(arg aruco_vpe)"/>
+        <param name="frame_id" value="$(arg aruco_frame_id)_detected" if="$(arg aruco_vpe)"/>
+        <param name="frame_id" value="$(arg aruco_frame_id)" unless="$(arg aruco_vpe)"/>
         <param name="markers/frame_id" value="aruco_map"/>
         <param name="markers/child_frame_id_prefix" value="aruco_"/>
     </node>
 
     <!-- vpe publisher from aruco markers -->
-    <node name="vpe_publisher" pkg="clover" type="vpe_publisher" if="$(eval aruco_vpe or force_init)" output="screen" clear_params="true">
+    <node name="vpe_publisher" pkg="clover" type="vpe_publisher" if="$(eval aruco_vpe or force_init)" output="log" clear_params="true">
         <remap from="~pose_cov" to="aruco_map/pose" if="$(arg aruco_vpe)"/>
         <remap from="~vpe" to="mavros/vision_pose/pose"/>
-        <param name="frame_id" value="aruco_map_detected" if="$(arg aruco_vpe)"/>
+        <param name="frame_id" value="$(arg aruco_frame_id)_detected" if="$(arg aruco_vpe)"/>
         <param name="force_init" value="$(arg force_init)"/>
-        <param name="offset_frame_id" value="aruco_map"/>
+        <param name="offset_frame_id" value="$(arg aruco_frame_id)"/>
+        <param name="mavros/local_position/tf/child_frame_id" value="$(arg unique_name)/base_link" unless="$(eval unique_name == '')"/>
+        <param name="mavros/local_position/frame_id" value="$(arg map_frame_id)" unless="$(eval unique_name == '')"/>
     </node>
 </launch>

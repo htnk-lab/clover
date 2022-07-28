@@ -1,0 +1,78 @@
+
+<?xml version="1.0"?>
+<sdf version="1.5">
+    <model name="aruco_2_99">
+        <static>true</static>
+        <link name="aruco_2_99_link">
+            
+<visual name="visual_marker_2_156">
+    <pose>0.0 0.0 0.0 0.0 0.0 1.57079632679</pose>
+    <cast_shadows>false</cast_shadows>
+    <geometry>
+        <box>
+            <size>0.22 0.22 1e-3</size>
+        </box>
+    </geometry>
+    <material>
+        <script>
+            <uri>model://agri_aruco/materials/scripts</uri>
+            <uri>model://agri_aruco/materials/textures</uri>
+            <name>aruco/marker_2_156</name>
+        </script>
+    </material>
+</visual>
+
+<visual name="visual_marker_2_157">
+    <pose>2.0 0.0 0.0 0.0 0.0 1.57079632679</pose>
+    <cast_shadows>false</cast_shadows>
+    <geometry>
+        <box>
+            <size>0.22 0.22 1e-3</size>
+        </box>
+    </geometry>
+    <material>
+        <script>
+            <uri>model://agri_aruco/materials/scripts</uri>
+            <uri>model://agri_aruco/materials/textures</uri>
+            <name>aruco/marker_2_157</name>
+        </script>
+    </material>
+</visual>
+
+<visual name="visual_marker_2_158">
+    <pose>0.0 2.0 0.0 0.0 0.0 1.57079632679</pose>
+    <cast_shadows>false</cast_shadows>
+    <geometry>
+        <box>
+            <size>0.22 0.22 1e-3</size>
+        </box>
+    </geometry>
+    <material>
+        <script>
+            <uri>model://agri_aruco/materials/scripts</uri>
+            <uri>model://agri_aruco/materials/textures</uri>
+            <name>aruco/marker_2_158</name>
+        </script>
+    </material>
+</visual>
+
+<visual name="visual_marker_2_159">
+    <pose>2.0 2.0 0.0 0.0 0.0 1.57079632679</pose>
+    <cast_shadows>false</cast_shadows>
+    <geometry>
+        <box>
+            <size>0.22 0.22 1e-3</size>
+        </box>
+    </geometry>
+    <material>
+        <script>
+            <uri>model://agri_aruco/materials/scripts</uri>
+            <uri>model://agri_aruco/materials/textures</uri>
+            <name>aruco/marker_2_159</name>
+        </script>
+    </material>
+</visual>
+
+        </link>
+    </model>
+</sdf>

@@ -7,12 +7,13 @@
     <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
     <arg name="optical_flow" default="true"/>
-    <arg name="aruco" default="false"/>
+    <arg name="aruco" default="true"/>
     <arg name="rangefinder_vl53l1x" default="true"/>
     <arg name="led" default="true"/>
     <arg name="blocks" default="false"/>
     <arg name="rc" default="false"/>
     <arg name="force_init" value="true"/> <!-- force estimator to init by publishing zero pose -->
+    <arg name="map" default="cmit.txt"/>
 
     <arg name="simulator" default="false"/> <!-- flag that we are operating on a simulated drone -->
 
@@ -37,6 +38,7 @@
     <include file="$(find clover)/launch/aruco.launch" if="$(eval aruco or force_init)">
         <arg name="force_init" value="$(arg force_init)"/>
         <arg name="disable" value="$(eval not aruco)"/>
+        <arg name="map" value="$(arg map)"/>
     </include>
 
     <!-- optical flow -->
