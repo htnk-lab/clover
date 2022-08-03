@@ -6,7 +6,7 @@
         <link name="aruco_2_99_link">
             
 <visual name="visual_marker_2_156">
-    <pose>0.0 0.0 0.0 0.0 0.0 1.57079632679</pose>
+    <pose>-1.0 -1.0 0.0 0.0 0.0 1.57079632679</pose>
     <cast_shadows>false</cast_shadows>
     <geometry>
         <box>
@@ -23,7 +23,7 @@
 </visual>
 
 <visual name="visual_marker_2_157">
-    <pose>2.0 0.0 0.0 0.0 0.0 1.57079632679</pose>
+    <pose>1.0 -1.0 0.0 0.0 0.0 1.57079632679</pose>
     <cast_shadows>false</cast_shadows>
     <geometry>
         <box>
@@ -40,7 +40,7 @@
 </visual>
 
 <visual name="visual_marker_2_158">
-    <pose>0.0 2.0 0.0 0.0 0.0 1.57079632679</pose>
+    <pose>-1.0 1.0 0.0 0.0 0.0 1.57079632679</pose>
     <cast_shadows>false</cast_shadows>
     <geometry>
         <box>
@@ -57,7 +57,7 @@
 </visual>
 
 <visual name="visual_marker_2_159">
-    <pose>2.0 2.0 0.0 0.0 0.0 1.57079632679</pose>
+    <pose>1.0 1.0 0.0 0.0 0.0 1.57079632679</pose>
     <cast_shadows>false</cast_shadows>
     <geometry>
         <box>
@@ -74,7 +74,7 @@
 </visual>
 
 <visual name="visual_marker_2_160">
-    <pose>1.0 1.0 0.0 0.0 0.0 1.57079632679</pose>
+    <pose>0.0 0.0 0.0 0.0 0.0 1.57079632679</pose>
     <cast_shadows>false</cast_shadows>
     <geometry>
         <box>

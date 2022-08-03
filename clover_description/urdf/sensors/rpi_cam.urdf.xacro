@@ -2,7 +2,7 @@
 <robot name="rpi_camera" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="../camera_sensor.urdf.xacro"/>
 
-  <xacro:macro name="rpi_cam" params="name:=rpi_cam parent x:=0 y:=0 z:=0 roll:=0 pitch:=0 yaw:=0 width:=1280 height:=960 rate:=40 do_throttling:=false">
+  <xacro:macro name="rpi_cam" params="name:=rpi_cam parent x:=0 y:=0 z:=0 roll:=0 pitch:=0 yaw:=0 width:=960 height:=720 rate:=40 do_throttling:=false">
     <joint name="${name}_joint" type="fixed">
       <origin xyz="${x} ${y} ${z}"
               rpy="${roll} ${pitch} ${yaw}"/>
